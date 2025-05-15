@@ -86,8 +86,20 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+
+    "HibikiPostgres": {
+        "ENGINE": "django.db.backends.postgresql",
+        'NAME': 'drf_db',
+        'USER': 'drf_user',
+        'PASSWORD': 'hibikeypassword',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
+
+DATABASE_ROUTERS = ['drfBackend.drfBackendPostgresRouter']
+
 
 
 # Password validation

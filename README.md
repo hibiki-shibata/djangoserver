@@ -11,4 +11,19 @@
 `gunicorn drfBackend.wsgi:application --bind 0.0.0.0:8000`
 In ./drf-server/drfBackend directry
 
-**Don't forget to add model classes and urls classes in each modoleed directlies __init__
+**Don't forget to add model classes and urls classes in each modoleed directlies `__init__`, otherwise it will be impossible to make migration
+
+
+Tech Stack
+Django
+djangrestframework (serializer)
+graphQL
+REST API
+celery and async.
+Postgres
+
+-- Tech Concepts--
+Cirkitbreaker
+database integrity
+retly
+timeout

@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import Status
+from rest_framework import status
 
 from .serializer import clientReqSerializer
 from ..models import AnswerAndKeywords
@@ -23,16 +23,18 @@ from rest_framework.decorators import api_view, permission_classes
 # @permission_classes([IsAuthenticated])
 def get_keywordsAnswer_from_postgres(request):
     try:
+        print(request)
+        print("HIHIHIHIHIHIHIHIHIHIHIHI")
         # Assuming you want to retrieve all records from the AnswerAndKeywords model
         dataFromDatavase = AnswerAndKeywords.objects.all()
         hibikiSerializer = clientReqSerializer(dataFromDatavase, many=True)
-        return Response(hibikiSerializer.data, status=Status.HTTP_200_OK)
+        return Response(hibikiSerializer.data, status=status.HTTP_200_OK)
     
 
         
     except ValidationError as e:
-        return Response({"error": str(e)}, status=Status.HTTP_400_BAD_REQUEST)
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e: 
-        return Response({"error": str(e)}, status=Status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # return Response({"message": "Hello, world!"})

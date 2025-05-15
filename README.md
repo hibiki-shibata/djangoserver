@@ -27,3 +27,13 @@ Cirkitbreaker
 database integrity
 retly
 timeout
+
+
+Try send req:
+```
+fetch('http://127.0.0.1:8000/random/getresponse') 
+    .then(response => {
+        console.log(response)
+}
+        )
+```

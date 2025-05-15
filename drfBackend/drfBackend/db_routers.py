@@ -1,8 +1,9 @@
-# This is for app specific route multiple databases
+# This is for handle app-specific route multiple databases.
 
 # https://docs.djangoproject.com/en/5.2/topics/db/multi-db/#topics-db-multi-db-hints
 
 class drfBackendPostgresRouter:
+    
     drfBackend_app_labels = {'entryPoint'} 
 
     def db_for_read(self, model, **hints):

@@ -4,7 +4,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 
 
-
 # Create your models here.
 class AnswerAndKeywords(models.Model):
     keywords = ArrayField(
@@ -14,6 +13,8 @@ class AnswerAndKeywords(models.Model):
                            )
     answer = models.CharField(max_length=100)
     timeStamp = models.DateTimeField(auto_now_add=True)
+
+
     # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers') # When you want to delete all the line, where the user is match. user.answers.all(
     # It's also helpful, when you have another joined table related in the user id
 

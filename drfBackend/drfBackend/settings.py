@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['drfBackend.drfBackendPostgresRouter']
+DATABASE_ROUTERS = ['drfBackend.db_routers.drfBackendPostgresRouter']
 
 
 

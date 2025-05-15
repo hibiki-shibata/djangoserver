@@ -15,7 +15,7 @@ class drfBackendPostgresRouter:
             return "HibikiPostgres"
         return "default"
     
-
+# python3 manage.py migrate --database=HibikiPostgres
     def allow_migrate(self, db, app_label, model_name=None, **hints):
         if app_label in self.drfBackend_app_labels:
             return db == "HibikiPostgres"

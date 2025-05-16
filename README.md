@@ -23,25 +23,31 @@ Start Postgres server
 
 
 ## Run on production
-`gunicorn drfBackend.wsgi:application --bind 0.0.0.0:8000`
+`gunicorn drfBackend.wsgi:application --bind 0.0.0.0:8000 --timeout 30`
 In ./drf-server/drfBackend directry
 
 **Don't forget to add model classes and urls classes in each modoleed directlies `__init__`, otherwise it will be impossible to make migration
 
 
-## Tech Stack
-* Django
-* djangrestframework (serializer)
+## --Tech Stack--
+* Django - ✅
+* djangrestframework (serializer) - ✅
 * GraphQL
-* REST API
+* REST API - ✅
 * Celery and async.
-* Postgres
+* Postgres - ✅
 
 ## -- Tech Concepts--
-Cirkitbreaker
-Database integrity
-Retly
-Timeout
+* Cirkitbreaker
+* Database integrity - ✅ 
+ - Validation (Data types) ✅
+ - @Transaction.Atomic (Prevent partial update, Race condition, Deadlock) 🚫
+ - Race condition(.select_for_update()) 🚫
+ - Largequery(Separate data) 🚫
+* Retly
+* Timeout✅
+* Authentication
+* Unit Test
 
 
 ## Example test get req:
@@ -66,9 +72,8 @@ function testGetRequest() {
 
 
 const examplePostRequest = {
-  "keywords": ["hibiki",  "shibata", "hibibibi"],
-  "answer": "konnnichwa",
-  "answesr": "I HIIIIIIIIII" // This data field isn't supposed to be stored here.
+  "keywords": ["hibiki", "asfasf", "hibibibi"],
+  "answer": 1121312,
 }
 
 
@@ -89,8 +94,32 @@ function testPostRequest() {
         });
     }
 
+
+    const exampleDeleteRequest = {
+        "id": 1
+    }
+
+    function testDeleteRequest() {
+        fetch('http://127.0.0.1:8000/random/deleteresponse', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(exampleDeleteRequest)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
     testPostRequest()
+    testDeleteRequest()
     testGetRequest()
+    
 ```
 
 ## Database with Postgres official docker image
@@ -100,7 +129,7 @@ function testPostRequest() {
     -e POSTGRES_USER=hibikiadmin \
     -e POSTGRES_DB=hibikidb \
     -v pgdata:/var/lib/postgresql/data \
-    --name dockerPosgtgres \
+    --name dockerPostgres \
     postgres
 ```
 

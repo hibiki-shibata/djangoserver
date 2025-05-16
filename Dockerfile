@@ -31,4 +31,4 @@ EXPOSE 8000
 CMD ["gunicorn", "drfBackend.manage.py", "runserver", "0.0.0.0:8000"]
 
 # FOR PRODUCTION
-# CMD ["gunicorn", "drfBackend..wsgi:application", "--bind", "0.0.0.0:8000"]
+# CMD ["gunicorn", "drfBackend..wsgi:application", "--bind", "0.0.0.0:8000" "--timeout", "30"]

@@ -4,7 +4,7 @@ How to start
 - `source ./venv/bin/activate`
 - `pip3 install -r requirements.txt`
 - `python3 manage.py makemigrations`
-- `python3 manage.py makemigrations entryPoint`
+- `python3 manage.py makemigrations entryPoint` Read models in entryPoint app
 - `python3 manage.py migrate`
 - `python3 manage.py migrate --database=HibikiPostgres`
 - `python3 manage.py runserver`
@@ -46,14 +46,51 @@ Timeout
 
 ## Example test get req:
 ```
-fetch('http://127.0.0.1:8000/random/getresponse') 
-    .then(response => 
-    response.json()
-    .then(data =>
-    console.log(data)
-    )
-    .catch(error  => console.log("Json parce failed:", error))
-    )
+
+function testGetRequest() {
+    fetch('http://127.0.0.1:8000/random/getresponse')
+        .then(response =>
+            response.json()
+                .then(data => {
+                    console.log(data)
+                })
+
+                .catch(error => {
+                    console.error('Error parsing JSON:', error);
+                }
+                )
+        )
+
+}
+
+
+
+const examplePostRequest = {
+  "keywords": ["hibiki",  "shibata", "hibibibi"],
+  "answer": "konnnichwa",
+  "answesr": "I HIIIIIIIIII" // This data field isn't supposed to be stored here.
+}
+
+
+function testPostRequest() {
+    fetch('http://127.0.0.1:8000/random/postresponse', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(examplePostRequest)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    testPostRequest()
+    testGetRequest()
 ```
 
 ## Database with Postgres official docker image

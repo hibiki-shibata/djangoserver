@@ -20,6 +20,6 @@ from django.urls import path, include
 # from ..entryPoint.views.views import get_keywordsAnswer_from_postgres
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('random/', include('entryPoint.urls')),
 ]

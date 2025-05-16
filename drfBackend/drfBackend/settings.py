@@ -90,9 +90,9 @@ DATABASES = {
 
     "HibikiPostgres": {
         "ENGINE": "django.db.backends.postgresql",
-        'NAME': 'drf_db',
-        'USER': 'drf_user',
-        'PASSWORD': 'hibikeypassword',
+        'NAME': 'hibikidb', # database name
+        'USER': 'hibikiadmin',
+        'PASSWORD': 'hibikey',
         'HOST': 'localhost',
         'PORT': '5432'
     }

@@ -24,7 +24,7 @@ from rest_framework.decorators import api_view, permission_classes
 def get_keywordsAnswer_from_postgres(request):
     try:
         print(request)
-        print("HIHIHIHIHIHIHIHIHIHIHIHI")
+        print("get_keywordsAnswer_from_postgres function called")
         # Assuming you want to retrieve all records from the AnswerAndKeywords model
         dataFromDatavase = AnswerAndKeywords.objects.all()
         hibikiSerializer = clientReqSerializer(dataFromDatavase, many=True)

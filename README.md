@@ -1,3 +1,18 @@
+##
+How to start
+- `python3 -m venv venv`
+- `source ./venv/bin/activate`
+- `pip3 install -r requirements.txt`
+- `python3 manage.py makemigrations`
+- `python3 manage.py makemigrations entryPoint`
+- `python3 manage.py migrate`
+- `python3 manage.py migrate --database=HibikiPostgres`
+- `python3 manage.py runserver`
+Start Postgres server
+- `nerdctl pull postgres`
+- Check out the container-run command below.
+
+
 
 ## dev server
 `python3 manage.py runserver`
@@ -54,3 +69,6 @@ fetch('http://127.0.0.1:8000/random/getresponse')
 
 -v pgdata > it tellings the database ensure to hold the data, evne after the VM deleted.
 nerdctl volume rm pgdata
+
+Access To database:
+`psql -h localhost -p 5432 -U hibikiadmin -d hibikidb`

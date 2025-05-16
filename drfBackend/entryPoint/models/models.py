@@ -25,6 +25,19 @@ class AnswerAndKeywords(models.Model):
         for keyword in self.keywords:
             if not keyword.islower():
                 raise ValidationError("Keyword must be lowercase.")
+            if not  isinstance(keyword, str):
+              raise ValidationError("Keyword must be a string.")
+            
+        if not isinstance(self.answer, str):
+            raise ValidationError("Answer must be a string.")
+        
+
+
+    # This will be called when you save the data to the database.
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+        
 
 
     # https://docs.djangoproject.com/en/5.2/ref/models/options/

@@ -3,6 +3,7 @@
 from rest_framework import serializers
 from ..models import AnswerAndKeywords
 
+# class clientGetReqSerializer(serializers.Serializer): # This is a basic serializer - full conf = verrvose.
 class clientGetReqSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerAndKeywords
@@ -12,6 +13,8 @@ class clientGetReqSerializer(serializers.ModelSerializer):
     # created = serializers.DateTimeField()
 
 
+
+# This is for when client sent POST request to the server.
 class serverResSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerAndKeywords

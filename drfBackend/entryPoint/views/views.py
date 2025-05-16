@@ -62,3 +62,28 @@ def post_keywordsAnswer_from_postgres(request):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # return Response({"message": "Hello, world!"})
+
+
+
+@api_view(['DELETE'])
+def delete_keywordsAnswer_from_postgres(request):
+    try:
+        print(request)
+        print("DELETE_keywordsAnswer_from_postgres function called")
+
+        line_to_delete = request.data.get('id')
+        if line_to_delete is None:
+            return Response({"error": "ID to be deleted is not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        deleted = AnswerAndKeywords.objects.filter(id=line_to_delete).delete()
+        if deleted[0] == 0:
+            return Response({"error": "No record found to delete"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"message": "Record deleted successfully"}, status=status.HTTP_200_OK)
+
+        
+        
+    except ValidationError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e: 
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)      

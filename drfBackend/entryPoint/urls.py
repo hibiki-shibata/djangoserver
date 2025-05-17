@@ -9,7 +9,6 @@ urlpatterns = [
     path('getresponse', get_keywordsAnswer_from_postgres, name='get_keywordsAndAswer'),
     path('postresponse', post_keywordsAnswer_from_postgres , name='post_keywordsAndAswer'),
     path('deleteresponse',  delete_keywordsAnswer_from_postgres , name='delete_keywordsAndAswer'),
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))), 
-
-
+    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True,  schema=schema))), #schema = schema.. not necessary bc I already specifed it in settings.py
+ 
 ]

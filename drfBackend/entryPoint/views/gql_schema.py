@@ -20,16 +20,33 @@ class SaveKeywordsAnswer(graphene.Mutation):
         keywords = graphene.List(graphene.String, required=True)
         answer = graphene.String(required=True)
 
-    keywordsAnswer = graphene.Field(clientReqQuery)
+    keywordsAnswer = graphene.Field(clientReqQuery) # This is defining of return type aganst req.
 
     def mutate(self, info, keywords, answer):
         try:
-            keywordsAnswer = AnswerAndKeywords(keywords=keywords, answer=answer)
-            keywordsAnswer.save()
-            return SaveKeywordsAnswer(keywordsAnswer=keywordsAnswer)
+            savingkeywordsAnswer = AnswerAndKeywords(keywords=keywords, answer=answer)
+            savingkeywordsAnswer.save()
+            return SaveKeywordsAnswer(savingkeywordsAnswer=savingkeywordsAnswer) # Return to client
         except Exception as e:
             return None
 
+
+class DeleteKeywordsAnswer(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+
+    success = graphene.Boolean()
+    keywordsAnswer = graphene.Field(clientReqQuery)
+    
+
+    def mutate(self, info, id):
+        try:            
+            deletingKeyWordsAndAnswer, _ = AnswerAndKeywords.objects.get(id=id)
+            deletingKeyWordsAndAnswer.delete() # 
+            return DeleteKeywordsAnswer(success=True)
+        
+        except AnswerAndKeywords.DoesNotExist:
+            return DeleteKeywordsAnswer(success=False)
 
 
 
@@ -50,6 +67,7 @@ class Query(graphene.ObjectType):
 
 
 class Mutation(graphene.ObjectType):
-    save_keywordsAnswer = SaveKeywordsAnswer.Field()
+    save_keywordsAnswer = SaveKeywordsAnswer.Field() # Call Mutation schema.
+    delete_keywordsAnswer = DeleteKeywordsAnswer.Field() 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

@@ -14,10 +14,10 @@ Start Postgres server
 
 
 
-## dev server
+## Run dev server
 `python3 manage.py runserver`
 
-## Dependencies
+## Handle Dependencies
 `pip3 install -r requirements.txt`
 `pip3 freeze > requirements.txt`
 
@@ -39,7 +39,7 @@ In ./drf-server/drfBackend directry
 
 ## -- Tech Concepts--
 * Cirkitbreaker
-* Database integrity - ✅ 
+- Database integrity - ✅ 
  - Validation (Data types) ✅
  - @Transaction.Atomic (Prevent partial update, Race condition, Deadlock) 🚫
  - Race condition(.select_for_update()) 🚫
@@ -70,10 +70,9 @@ function testGetRequest() {
 }
 
 
-
 const examplePostRequest = {
-  "keywords": ["hibiki", "asfasf", "hibibibi"],
-  "answer": 1121312,
+    "keywords": ["hibiki", "asfasf", "hibibibi"],
+    "answer": 1121312
 }
 
 
@@ -92,45 +91,64 @@ function testPostRequest() {
         .catch(error => {
             console.error('Error:', error);
         });
-    }
+}
 
 
-    const exampleDeleteRequest = {
-        "id": 1
-    }
+const exampleDeleteRequest = {
+    "idd": "5"
+}
 
-    function testDeleteRequest() {
-        fetch('http://127.0.0.1:8000/random/deleteresponse', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(exampleDeleteRequest)
+function testDeleteRequest() {
+    fetch('http://127.0.0.1:8000/random/deleteresponse', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(exampleDeleteRequest)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
-    testPostRequest()
-    testDeleteRequest()
-    testGetRequest()
-    
-```
 
-## Database with Postgres official docker image
-```
- nerdctl run -p 5432:5432 -d \
-    -e POSTGRES_PASSWORD=hibikey \
-    -e POSTGRES_USER=hibikiadmin \
-    -e POSTGRES_DB=hibikidb \
-    -v pgdata:/var/lib/postgresql/data \
-    --name dockerPostgres \
-    postgres
+function testGraphQLRequest() {
+    fetch("http://127.0.0.1:8000/random/graphql/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            query: `
+      {
+        allKeywordsanswer {
+          id
+          answer
+        }
+      }
+    `
+        }),
+    })
+        .then(async (res) => {
+            const data = await res.json();
+            if (!res.ok) {
+                console.error("GraphQL error response:", data);
+            } else {
+                console.log("GraphQL success:", JSON.stringify(data, null, 2));
+            }
+        })
+        .catch(err => console.error("Network error:", err));
+
+}
+
+// testPostRequest()
+// testDeleteRequest()
+// testGetRequest()
+testGraphQLRequest()
 ```
 
 -v pgdata > it tellings the database ensure to hold the data, evne after the VM deleted.

@@ -1,4 +1,5 @@
 # https://www.django-rest-framework.org/api-guide/serializers/
+# Serializer is basically for REST API, not for GraphQL.
 
 from rest_framework import serializers
 from ..models import AnswerAndKeywords
@@ -20,3 +21,5 @@ class serverResSerializer(serializers.ModelSerializer):
         model = AnswerAndKeywords
         fields = ['keywords', 'answer']
         # read_only_fields = ['timeStamp']
+
+        

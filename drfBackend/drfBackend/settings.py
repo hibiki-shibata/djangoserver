@@ -36,11 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     # 'django.contrib.sessions',
     # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.staticfiles', # Required for GraphiQL
 
-     "rest_framework",
-     "entryPoint",
-     "corsheaders",
+     "rest_framework", #DRF
+     "entryPoint",  # My app name
+     "corsheaders", 
+     "graphene_django",
+
 
 ]
 
@@ -176,3 +178,8 @@ ORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
+
+# GraphQL conf
+GRAPHENE = {
+    "SCHEMA": "entryPoint.views.schema",  # Where your GraphQL schema is located
+}

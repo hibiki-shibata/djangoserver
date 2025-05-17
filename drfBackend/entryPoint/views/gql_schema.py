@@ -11,12 +11,32 @@ class clientReqQuery(DjangoObjectType):
         model = AnswerAndKeywords
         fields = ('id', 'keywords', 'answer', 'timeStamp')
 
-        
+
+
+
+# Because of saving data through Query class is not a good practice
+class SaveKeywordsAnswer(graphene.Mutation):        
+    class Arguments:
+        keywords = graphene.List(graphene.String, required=True)
+        answer = graphene.String(required=True)
+
+    keywordsAnswer = graphene.Field(clientReqQuery)
+
+    def mutate(self, info, keywords, answer):
+        try:
+            keywordsAnswer = AnswerAndKeywords(keywords=keywords, answer=answer)
+            keywordsAnswer.save()
+            return SaveKeywordsAnswer(keywordsAnswer=keywordsAnswer)
+        except Exception as e:
+            return None
+
+
 
 
 class Query(graphene.ObjectType):
-    all_keywordsAnswer = graphene.List(clientReqQuery) #Graphene automatically converts field names to camelCase by default... so they will understnad it as "allKeywordsAnswer"
+    all_keywordsAnswer = graphene.List(clientReqQuery) #Graphene automatically converts field names to camelCase by default... so they will understnad it as allKeywordsAnswer"
     keywordsAnswer = graphene.Field(clientReqQuery, id=graphene.Int())
+    save_keywordsAnswer = graphene.Field(clientReqQuery, keywords=graphene.List(graphene.String), answer=graphene.String())
 
     def resolve_all_keywordsAnswer(self, info):
         return AnswerAndKeywords.objects.all()
@@ -27,16 +47,9 @@ class Query(graphene.ObjectType):
         except AnswerAndKeywords.DoesNotExist:
             return None
         
-# class CreateKeywordsAnswer(graphene.Mutation): 
-#     class Arguments:
-#         keywords = graphene.List(graphene.String)
-#         answer = graphene.String()
 
-#     keywordsAnswer = graphene.Field(clientReqQuery)
 
-#     def mutate(self, info, keywords, answer):
-#         keywordsAnswer = AnswerAndKeywords(keywords=keywords, answer=answer)
-#         keywordsAnswer.save()
-#         return CreateKeywordsAnswer(keywordsAnswer=keywordsAnswer)
+class Mutation(graphene.ObjectType):
+    save_keywordsAnswer = SaveKeywordsAnswer.Field()
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutation)

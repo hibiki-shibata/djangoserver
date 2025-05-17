@@ -32,7 +32,7 @@ In ./drf-server/drfBackend directry
 ## --Tech Stack--
 * Django - ✅
 * djangrestframework (serializer) - ✅
-* GraphQL
+* GraphQL✅ (Only Accept GET & POST )
 * REST API - ✅
 * Celery and async.
 * Postgres - ✅

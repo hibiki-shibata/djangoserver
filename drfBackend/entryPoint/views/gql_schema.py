@@ -45,7 +45,7 @@ class DeleteKeywordsAnswer(graphene.Mutation):
             deletingKeyWordsAndAnswer.delete() # 
             return DeleteKeywordsAnswer(success=True)
         
-        except AnswerAndKeywords.DoesNotExist:
+        except Exception as e:
             return DeleteKeywordsAnswer(success=False)
 
 

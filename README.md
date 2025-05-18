@@ -30,6 +30,9 @@ nerdctl run -p 5432:5432 -d \
 - `nerdctl pull redis`
 - `nerdctl run -d --name <redis-Name> -p 6379:6379 redis`
 
+Celery logis
+- `celery -A drfBackend worker --loglevel=debug`
+
 
 ## Run on Production
 `gunicorn drfBackend.wsgi:application --bind 0.0.0.0:8000 --timeout 30`

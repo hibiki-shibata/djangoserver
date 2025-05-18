@@ -1,0 +1,1 @@
+from ..graphql.gql_schema import schema

@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
-from .serializer import clientGetReqSerializer, serverResSerializer
+from ..serializers.serializer import clientGetReqSerializer, serverResSerializer
 from ..models import AnswerAndKeywords
 
 # https://www.django-rest-framework.org/api-guide/permissions/

@@ -65,7 +65,7 @@ class Query(graphene.ObjectType):
             return None
         
 
-
+# This is necessary to call the mutation from the client side - suitable for updating data.
 class Mutation(graphene.ObjectType):
     save_keywordsAnswer = SaveKeywordsAnswer.Field() # Call Mutation schema.
     delete_keywordsAnswer = DeleteKeywordsAnswer.Field() 

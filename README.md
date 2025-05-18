@@ -33,18 +33,19 @@ In ./drf-server/drfBackend directry
 * Django - ✅
 * djangrestframework (serializer) - ✅
 * GraphQL✅ (Only Accept GET & POST )
-* REST API - ✅
-* Celery and async.
+* REST API - (Handle / making req)
+ * When a request comes, it will make a request to slack BOT but it through celery, while making sure the data is sent once for sure.
+* Celery and async. (Idempotency)
 * Postgres - ✅
 
 ## -- Tech Concepts--
 * Cirkitbreaker🚫 (Handle in infrastructure level)
 - Database integrity - ✅ 
  - Validation (Data types) ✅
- - @Transaction.Atomic (Prevent partial update, Race condition, Deadlock) 🚫
+ - @Transaction.Atomic (Prevent partial update, Race condition, Deadlock)🚫
  - Race condition(.select_for_update()) 🚫
  - Largequery(Separate data) 🚫
-* Retly
+* Error handling retly / Idempotency, timeout, Taskqueueing, transaction.on_commit()
 * Timeout✅
 * Authentication
 * Unit Test
@@ -52,9 +53,8 @@ In ./drf-server/drfBackend directry
 
 ## Example test get req:
 ```
-
 function testGetRequest() {
-    fetch('http://127.0.0.1:8000/random/getresponse')
+    fetch('http://127.0.0.1:8000/random/restapi')
         .then(response =>
             response.json()
                 .then(data => {
@@ -77,7 +77,7 @@ const examplePostRequest = {
 
 
 function testPostRequest() {
-    fetch('http://127.0.0.1:8000/random/postresponse', {
+    fetch('http://127.0.0.1:8000/random/restapi', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -95,11 +95,11 @@ function testPostRequest() {
 
 
 const exampleDeleteRequest = {
-    "idd": "5"
+    "id": "5"
 }
 
 function testDeleteRequest() {
-    fetch('http://127.0.0.1:8000/random/deleteresponse', {
+    fetch('http://127.0.0.1:8000/random/restapi', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ function testDeleteRequest() {
 
 
 function testGraphQLRequest() {
-    fetch("http://127.0.0.1:8000/random/graphql/", {
+    fetch("http://127.0.0.1:8000/random/graphql", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -125,9 +125,12 @@ function testGraphQLRequest() {
         body: JSON.stringify({
             query: `
       {
-        allKeywordsanswer {
-          id
-          answer
+        keywordsAnswer(id: 9) {
+            id
+            keywords
+            answer
+            timeStamp
+
         }
       }
     `
@@ -145,10 +148,78 @@ function testGraphQLRequest() {
 
 }
 
-// testPostRequest()
-// testDeleteRequest()
-// testGetRequest()
+
+function saveKeywordsAnswer(keywords, answer) {
+    fetch("http://127.0.0.1:8000/random/graphql", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            query: `
+        mutation saveKeywordsanswer($keywords: [String!]!, $answer: String!) {
+          saveKeywordsanswer(keywords: $keywords, answer: $answer) {
+            keywordsAnswer {
+              id
+              keywords
+              answer
+              timeStamp
+            }
+          }
+        }
+      `,
+            variables: {
+                keywords: keywords,
+                answer: answer
+            }
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Success:", JSON.stringify(data, null, 2));
+        })
+        .catch(err => {
+            console.error("Error:", err);
+        });
+}
+
+
+
+
+
+function deleteAnswerById(id) {
+    fetch("http://127.0.0.1:8000/random/graphql", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            query: `
+        mutation deleteKeywordsanswer($id: Int!) {
+          deleteKeywordsanswer(id: $id) {
+            success
+          }
+        }
+      `,
+            variables: { id: id }
+        })
+    })
+        .then(async (res) =>
+            await res.json())
+        .then(data => {
+            console.log(JSON.stringify(data, null, 2));
+        })
+        .catch(err => console.error("Network error:", err));
+}
+
+
+testPostRequest()
+testDeleteRequest()
+testGetRequest()
+
 testGraphQLRequest()
+saveKeywordsAnswer(["django", "graphql", "api"], "GraphQL mutation test!");
+deleteAnswerById(12);
 ```
 
 -v pgdata > it tellings the database ensure to hold the data, evne after the VM deleted.

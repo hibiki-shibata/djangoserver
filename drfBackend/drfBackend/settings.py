@@ -181,5 +181,5 @@ ORS_ALLOW_METHODS = (
 
 # GraphQL conf
 GRAPHENE = {
-    "SCHEMA": "entryPoint.views.schema",  # Where your GraphQL schema is located
+    "SCHEMA": "entryPoint.graphql.schema",  # Where your GraphQL schema is located
 }

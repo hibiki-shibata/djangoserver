@@ -1,28 +1,37 @@
-##
-How to start
+# How to start
 - `python3 -m venv venv`
 - `source ./venv/bin/activate`
-- `pip3 install -r requirements.txt`
-- `python3 manage.py makemigrations`
+- `pip3 install -r requirements.txt` Install required dependencies
+- `python3 manage.py makemigrations` 
 - `python3 manage.py makemigrations entryPoint` Read models in entryPoint app
-- `python3 manage.py migrate`
+- `python3 manage.py migrate` Connect database & set required tables up
 - `python3 manage.py migrate --database=HibikiPostgres`
-- `python3 manage.py runserver`
-Start Postgres server
-- `nerdctl pull postgres`
-- Check out the container-run command below.
+- `python3 manage.py runserver`Run dev server
 
-
-
-## Run dev server
-`python3 manage.py runserver`
-
-## Handle Dependencies
-`pip3 install -r requirements.txt`
+Don't forget update the latest dependency info in txt file.
 `pip3 freeze > requirements.txt`
 
+## Setup Postgres server
+- `nerdctl pull postgres`
+- Start postgres container
+```
+nerdctl run -p 5432:5432 -d \
+    --name <CONTAINER NAME> \
+    -e POSTGRES_PASSWORD=<PASSWORD>> \
+    -e POSTGRES_USER=<USER NAME> \
+    -e POSTGRES_DB=<DB NAME> \
+    -v pgdata:/var/lib/postgresql/data \
+    postgres
+```
+- `psql -h localhost -p 5432 -U hibikiadmin -d hibikidb` Login to database
 
-## Run on production
+
+## Setup Redis server (For celery)
+- `nerdctl pull redis`
+- `nerdctl run -d --name <redis-Name> -p 6379`
+
+
+## Run on Production
 `gunicorn drfBackend.wsgi:application --bind 0.0.0.0:8000 --timeout 30`
 In ./drf-server/drfBackend directry
 
@@ -43,8 +52,8 @@ In ./drf-server/drfBackend directry
 - Database integrity - ✅ 
  - Validation (Data types) ✅
  - @Transaction.Atomic (Prevent partial update, Race condition, Deadlock)🚫
- - Race condition(.select_for_update()) 🚫
- - Largequery(Separate data) 🚫
+    - Race condition(.select_for_update()) 🚫
+    - Largequery(Separate data) 🚫
 * Error handling retly / Idempotency, timeout, Taskqueueing, transaction.on_commit()
 * Timeout✅
 * Authentication
@@ -225,5 +234,3 @@ deleteAnswerById(12);
 -v pgdata > it tellings the database ensure to hold the data, evne after the VM deleted.
 nerdctl volume rm pgdata
 
-Access To database:
-`psql -h localhost -p 5432 -U hibikiadmin -d hibikidb`

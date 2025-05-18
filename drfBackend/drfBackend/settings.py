@@ -150,12 +150,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
@@ -170,7 +169,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-ORS_ALLOW_METHODS = (
+CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",
     "OPTIONS",
@@ -179,7 +178,18 @@ ORS_ALLOW_METHODS = (
     "PUT",
 )
 
+
 # GraphQL conf
 GRAPHENE = {
     "SCHEMA": "entryPoint.graphql.schema",  # Where your GraphQL schema is located
 }
+
+
+# Celery conf
+CELERY_BROKER_URL="redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT=["json"]
+CELERY_TASK_SERIALIZER="json"
+CELERY_RESULT_BACKEND="redis://localhost:6379/0"
+CELERY_TIMEZONE="UTC"
+# CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60

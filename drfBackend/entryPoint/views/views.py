@@ -7,17 +7,20 @@ from django.core.exceptions import ValidationError
 # https://www.django-rest-framework.org/api-guide/views/#api_view
 # https://www.django-rest-framework.org/api-guide/authentication/
 
-from rest_framework.decorators import api_view
+# from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
 from ..serializers.serializer import clientGetReqSerializer, serverResSerializer
 from ..models import AnswerAndKeywords
+from ..tasks.task import send_request_to_weather_server
 
 # https://www.django-rest-framework.org/api-guide/permissions/
 from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.permissions import IsAuthenticated
+
+from celery.result import AsyncResult
 
     
 
@@ -30,7 +33,11 @@ class answerAndKeywordsViewSet(APIView):
             # Assuming you want to retrieve all records from the AnswerAndKeywords model
             dataFromDatavase = AnswerAndKeywords.objects.all()
             hibikiSerializer = clientGetReqSerializer(dataFromDatavase, many=True)
+
+            send_request_to_weather_server.delay()
+        
             return Response(hibikiSerializer.data, status=status.HTTP_200_OK)
+        
         
             
         except ValidationError as e:

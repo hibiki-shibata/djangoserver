@@ -28,7 +28,7 @@ nerdctl run -p 5432:5432 -d \
 
 ## Setup Redis server (For celery)
 - `nerdctl pull redis`
-- `nerdctl run -d --name <redis-Name> -p 6379`
+- `nerdctl run -d --name <redis-Name> -p 6379:6379 redis`
 
 
 ## Run on Production

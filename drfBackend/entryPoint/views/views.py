@@ -20,7 +20,7 @@ from ..tasks.task import send_request_to_weather_server
 from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.permissions import IsAuthenticated
 
-from celery.result import AsyncResult
+# from celery.result import AsyncResult
 
     
 

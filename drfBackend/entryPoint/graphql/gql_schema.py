@@ -53,7 +53,6 @@ class DeleteKeywordsAnswer(graphene.Mutation):
 class Query(graphene.ObjectType):
     all_keywordsAnswer = graphene.List(clientReqQuery) #Graphene automatically converts field names to camelCase by default... so they will understnad it as allKeywordsAnswer"
     keywordsAnswer = graphene.Field(clientReqQuery, id=graphene.Int())
-    save_keywordsAnswer = graphene.Field(clientReqQuery, keywords=graphene.List(graphene.String), answer=graphene.String())
 
     def resolve_all_keywordsAnswer(self, info):
         return AnswerAndKeywords.objects.all()

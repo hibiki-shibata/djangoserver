@@ -35,9 +35,7 @@ class DeleteKeywordsAnswer(graphene.Mutation):
     class Arguments:
         id = graphene.Int(required=True)
 
-    success = graphene.Boolean()
-    keywordsAnswer = graphene.Field(clientReqQuery)
-    
+    success = graphene.Boolean()    
 
     def mutate(self, info, id):
         try:            

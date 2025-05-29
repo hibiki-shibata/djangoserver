@@ -8,7 +8,7 @@
 - `python3 manage.py migrate --database=HibikiPostgres`
 - `python3 manage.py runserver`Run dev server
 
-Don't forget update the latest dependency info in txt file.
+Don't forget update the latest dependency info in requirements.txt file.
 `pip3 freeze > requirements.txt`
 
 ## Setup Postgres server

@@ -31,12 +31,11 @@ nerdctl run -p 5432:5432 -d \
 - `nerdctl run -d --name <redis-Name> -p 6379:6379 redis`
 
 Celery logis
-- `celery -A drfBackend worker --loglevel=debug`
+- `celery -A hibikiProject worker --loglevel=debug`
 
 
 ## Run on Production
-`gunicorn drfBackend.wsgi:application --bind 0.0.0.0:8000 --timeout 30`
-In ./drf-server/drfBackend directry
+`gunicorn hibikiProject.wsgi:application --bind 0.0.0.0:8000 --timeout 30`
 
 **Don't forget to add model classes and urls classes in each modoleed directlies `__init__`, otherwise it will be impossible to make migration
 

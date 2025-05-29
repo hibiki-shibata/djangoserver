@@ -39,5 +39,4 @@ class AnswerAndKeywords(models.Model):
 
 
     # https://docs.djangoproject.com/en/5.2/ref/models/options/
-    # class Meta:
-    #     unique_together = ('keyword', 'user')
+    

@@ -3,7 +3,7 @@
 - `source ./venv/bin/activate`
 - `pip3 install -r requirements.txt` Install required dependencies
 - `python3 manage.py makemigrations` 
-- `python3 manage.py makemigrations entryPoint` Read models in entryPoint app
+- `python3 manage.py makemigrations hibikiApp` Read models in entryPoint app
 - `python3 manage.py migrate` Connect database & set required tables up
 - `python3 manage.py migrate --database=HibikiPostgres`
 - `python3 manage.py runserver`Run dev server
@@ -236,4 +236,3 @@ deleteAnswerById(12);
 
 -v pgdata > it tellings the database ensure to hold the data, evne after the VM deleted.
 nerdctl volume rm pgdata
-

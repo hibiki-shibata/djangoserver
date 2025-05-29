@@ -2,3 +2,4 @@
 test.py
 venv
 *pycache*
+db.sqlite3

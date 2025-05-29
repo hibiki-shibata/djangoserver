@@ -1,5 +1,5 @@
 """
-URL configuration for drfBackend project.
+URL configuration for hibikiProject project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -17,9 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# from ..entryPoint.views.views import get_keywordsAnswer_from_postgres
-
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('random/', include('entryPoint.urls')),
+   path('random/', include('hibikiApp.urls')),
 ]

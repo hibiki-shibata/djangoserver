@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class EntrypointConfig(AppConfig):
+class HibikiappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'entryPoint'
+    name = 'hibikiApp'

@@ -4,7 +4,7 @@
 
 class drfBackendPostgresRouter:
     
-    drfBackend_app_labels = {'entryPoint'} 
+    drfBackend_app_labels = {'hibikiApp'} 
 
     def db_for_read(self, model, **hints):
         if model._meta.app_label in self.drfBackend_app_labels:

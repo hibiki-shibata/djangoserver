@@ -12,33 +12,39 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
+from rest_framework import generics, mixins 
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
+
 from ..serializers.serializer import clientGetReqSerializer, serverResSerializer
 from ..models import AnswerAndKeywords
 from ..tasks.task import send_request_to_weather_server
 
 # https://www.django-rest-framework.org/api-guide/permissions/
 from rest_framework.decorators import api_view, permission_classes
-# from rest_framework.permissions import IsAuthenticated
 
-# from celery.result import AsyncResult
 
     
 
-class answerAndKeywordsViewSet(APIView):    
+class answerAndKeywordsViewSet(generics.GenericAPIView, ListModelMixin, CreateModelMixin):
+    queryset = AnswerAndKeywords.objects.all() 
+    # serializer_class = clientGetReqSerializer
 
-    def get(self, request):
-        try:
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return clientGetReqSerializer
+        elif self.request.method == 'POST':
+            return serverResSerializer
+        else:
+            raise ValidationError("Unsupported method")
+
+    def get(self, request, *args, **kwargs):
+        try: 
+
             print(request)
             print("GET_keywordsAnswer_from_postgres function called")
-            # Assuming you want to retrieve all records from the AnswerAndKeywords model
-            dataFromDatavase = AnswerAndKeywords.objects.all()
-            hibikiSerializer = clientGetReqSerializer(dataFromDatavase, many=True)
-
-            send_request_to_weather_server.delay()
+            # send_request_to_weather_server.delay()
         
-            return Response(hibikiSerializer.data, status=status.HTTP_200_OK)
-        
-        
+            return self.list(request, *args, **kwargs)
             
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -46,19 +52,13 @@ class answerAndKeywordsViewSet(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
     
-    def post(self, request):
+    def post(self, request , *args, **kwargs):
+        
         try:
             print(request)
             print("POST_keywordsAnswer_from_postgres function called")
 
-            postReqSerializer = serverResSerializer(data=request.data)
-            if postReqSerializer.is_valid():
-                postReqSerializer.save()
-                # return Response(postReqSerializer.data, status=status.HTTP_201_CREATED)
-                return Response("Post data were successfully saved", status=status.HTTP_201_CREATED)
-            else:
-                return Response(postReqSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+            return  self.create(request, *args, **kwargs)            
             
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -66,7 +66,7 @@ class answerAndKeywordsViewSet(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
-    def delete(self, request):
+    def delete(self, request, *args, **kwargs):
         try:
             print(request)
             print("DELETE_keywordsAnswer_from_postgres function called")

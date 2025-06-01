@@ -12,7 +12,7 @@ Don't forget update the latest dependency info in requirements.txt file.
 `pip3 freeze > requirements.txt`
 
 ## Setup Postgres server
-- `nerdctl pull postgres`
+- `docker pull postgres`
 - Start postgres container
 ```
 nerdctl run -p 5432:5432 -d \

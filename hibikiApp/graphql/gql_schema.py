@@ -20,13 +20,13 @@ class SaveKeywordsAnswer(graphene.Mutation):
         keywords = graphene.List(graphene.String, required=True)
         answer = graphene.String(required=True)
 
-    keywordsAnswer = graphene.Field(clientReqQuery) # This is defining of return type aganst req.
+    SavedKeywordsAnswer = graphene.Field(clientReqQuery) # This is defining of return type aganst req.
 
     def mutate(self, info, keywords, answer):
         try:
-            savingkeywordsAnswer = AnswerAndKeywords(keywords=keywords, answer=answer)
-            savingkeywordsAnswer.save()
-            return SaveKeywordsAnswer(savingkeywordsAnswer=savingkeywordsAnswer) # Return to client
+            SavedKeywordsAnswer = AnswerAndKeywords(keywords=keywords, answer=answer)
+            SavedKeywordsAnswer.save()
+            return SaveKeywordsAnswer(SavedKeywordsAnswer=SavedKeywordsAnswer) # Return to client
         except Exception as e:
             return None
 

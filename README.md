@@ -7,6 +7,7 @@
 - `python3 manage.py migrate` Connect database & set required tables up
 - `python3 manage.py migrate --database=HibikiPostgres`
 - `python3 manage.py runserver`Run dev server
+- `celery -A hibikiProject worker --loglevel=info` Run celery worker
 
 Don't forget update the latest dependency info in requirements.txt file.
 `pip3 freeze > requirements.txt`

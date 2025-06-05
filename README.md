@@ -170,7 +170,7 @@ function saveKeywordsAnswer(keywords, answer) {
             query: `
         mutation saveKeywordsanswer($keywords: [String!]!, $answer: String!) {
           saveKeywordsanswer(keywords: $keywords, answer: $answer) {
-            keywordsAnswer {
+            savedKeywordsAnswer {
               id
               keywords
               answer
@@ -224,13 +224,13 @@ function deleteAnswerById(id) {
 }
 
 
-testPostRequest()
-testDeleteRequest()
+// testPostRequest()
+// testDeleteRequest()
 testGetRequest()
 
-testGraphQLRequest()
-saveKeywordsAnswer(["django", "graphql", "api"], "GraphQL mutation test!");
-deleteAnswerById(12);
+// testGraphQLRequest()
+// saveKeywordsAnswer(["django", "graphql", "api"], "GraphQL mutation test!");
+// deleteAnswerById(12);
 ```
 
 -v pgdata > it tellings the database ensure to hold the data, evne after the VM deleted.
